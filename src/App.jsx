@@ -16,10 +16,29 @@ const App = () => {
       <main className="main-content">
         <div className="container">
           <section className="search-section">
-            <h2 className="section-title">Find a meal</h2>
-            <p className="section-text">
-              Search by meal name to discover recipes and food inspiration.
-            </p>
+            <div className="search-copy">
+              <h2 className="section-title">Find a meal</h2>
+              <p className="section-text">
+                Search by meal name to discover recipes and food inspiration
+              </p>
+            </div>
+
+            <form className="search-form">
+              <label htmlFor="meal-search" className="sr-only">
+                Search for a meal
+              </label>
+
+              <input
+                type="text"
+                className="search-input"
+                id="meal-search"
+                placeholder="Try pasta, chicken, beef..."
+              />
+
+              <button className="search-button" type="submit">
+                Search
+              </button>
+            </form>
           </section>
 
           <section className="results-section">
