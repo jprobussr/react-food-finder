@@ -1,4 +1,8 @@
+import { useState } from 'react';
+
 const App = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <div className="app-shell">
       <header className="site-header">
@@ -29,10 +33,12 @@ const App = () => {
               </label>
 
               <input
-                type="text"
-                className="search-input"
                 id="meal-search"
+                className="search-input"
+                type="text"
                 placeholder="Try pasta, chicken, beef..."
+                value={searchTerm}
+                onChange={() => setSearchTerm(event.target.value)}
               />
 
               <button className="search-button" type="submit">
@@ -44,7 +50,7 @@ const App = () => {
           <section className="results-section">
             <h2 className="section-title">Results</h2>
             <p className="section-text">
-              Your meal cards will appear here once we connect the search.
+              Current search: {searchTerm || 'Nothing typed yet.'}
             </p>
           </section>
         </div>
