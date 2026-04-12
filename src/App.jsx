@@ -2,6 +2,12 @@ import { useState } from 'react';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [submitedSearch, setSubmittedSearch] = useState('');
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    setSubmittedSearch(searchTerm.trim());
+  };
 
   return (
     <div className="app-shell">
@@ -27,7 +33,7 @@ const App = () => {
               </p>
             </div>
 
-            <form className="search-form">
+            <form className="search-form" onSubmit={handleSearchSubmit}>
               <label htmlFor="meal-search" className="sr-only">
                 Search for a meal
               </label>
@@ -50,7 +56,9 @@ const App = () => {
           <section className="results-section">
             <h2 className="section-title">Results</h2>
             <p className="section-text">
-              Current search: {searchTerm || 'Nothing typed yet.'}
+              {submitedSearch
+                ? `You searched for: ${submitedSearch}`
+                : 'Search for a meal to see results here.'}
             </p>
           </section>
         </div>
