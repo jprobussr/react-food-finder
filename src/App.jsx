@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [submitedSearch, setSubmittedSearch] = useState('');
+  const [submittedSearch, setSubmittedSearch] = useState('');
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -22,6 +22,14 @@ const App = () => {
     setErrorMessage('');
     setSubmittedSearch(trimmedSearch);
   };
+
+  let message = 'Search for a meal to see results here.';
+
+  if (errorMessage) {
+    message = errorMessage;
+  } else if (submittedSearch) {
+    message = `You searched for: ${submittedSearch}`;
+  }
 
   return (
     <div className="app-shell">
@@ -43,7 +51,7 @@ const App = () => {
             <div className="search-copy">
               <h2 className="section-title">Find a meal</h2>
               <p className="section-text">
-                Search by meal name to discover recipes and food inspiration
+                Search by meal name to discover recipes and food inspiration.
               </p>
             </div>
 
@@ -51,35 +59,23 @@ const App = () => {
               <label htmlFor="meal-search" className="sr-only">
                 Search for a meal
               </label>
-
               <input
+                type="text"
                 id="meal-search"
                 className="search-input"
-                type="text"
                 placeholder="Try pasta, chicken, beef..."
                 value={searchTerm}
-                onChange={() => setSearchTerm(event.target.value)}
+                onChange={(event) => setSearchTerm(event.target.value)}
               />
 
-              <button className="search-button" type="submit">
-                Search
-              </button>
+              <button className="search-button" type='submit'>Search</button>
             </form>
           </section>
 
           <section className="results-section">
             <h2 className="section-title">Results</h2>
-
-            {errorMessage ? (
-              <p className="section-text">{errorMessage}</p>
-            ) : submitedSearch ? (
-              <p className="section-text">You searched for: {submitedSearch}</p>
-            ) : (
-              <p className="section-text">
-                Search for a meal to see results here.
-              </p>
-            )}
-            {isLoading && <p className='section-text'>Loading meals...</p>}
+            <p className="section-text">{message}</p>
+            { isLoading && <p className="section-text">Loading meals...</p>}
           </section>
         </div>
       </main>
