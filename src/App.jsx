@@ -3,10 +3,24 @@ import { useState } from 'react';
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [submitedSearch, setSubmittedSearch] = useState('');
+  const [meals, setMeals] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    setSubmittedSearch(searchTerm.trim());
+
+    const trimmedSearch = searchTerm.trim();
+
+    if (!trimmedSearch) {
+      setSubmittedSearch('');
+      setMeals([]);
+      setErrorMessage('Please enter a meal name.');
+      return;
+    }
+
+    setErrorMessage('');
+    setSubmittedSearch(trimmedSearch);
   };
 
   return (
@@ -55,11 +69,17 @@ const App = () => {
 
           <section className="results-section">
             <h2 className="section-title">Results</h2>
-            <p className="section-text">
-              {submitedSearch
-                ? `You searched for: ${submitedSearch}`
-                : 'Search for a meal to see results here.'}
-            </p>
+
+            {errorMessage ? (
+              <p className="section-text">{errorMessage}</p>
+            ) : submitedSearch ? (
+              <p className="section-text">You searched for: {submitedSearch}</p>
+            ) : (
+              <p className="section-text">
+                Search for a meal to see results here.
+              </p>
+            )}
+            {isLoading && <p className='section-text'>Loading meals...</p>}
           </section>
         </div>
       </main>
