@@ -7,20 +7,25 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
 
     const trimmedSearch = searchTerm.trim();
 
     if (!trimmedSearch) {
       setSubmittedSearch('');
       setMeals([]);
-      setErrorMessage('Please enter a meal name.');
+      setErrorMessage('');
       return;
     }
 
     setErrorMessage('');
     setSubmittedSearch(trimmedSearch);
+    setSearchTerm('');
   };
 
   let message = 'Search for a meal to see results here.';
@@ -56,26 +61,28 @@ const App = () => {
             </div>
 
             <form className="search-form" onSubmit={handleSearchSubmit}>
-              <label htmlFor="meal-search" className="sr-only">
+              <label className="sr-only" htmlFor="meal-search">
                 Search for a meal
               </label>
               <input
-                type="text"
                 id="meal-search"
                 className="search-input"
+                type="text"
                 placeholder="Try pasta, chicken, beef..."
                 value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
+                onChange={handleSearchChange}
               />
 
-              <button className="search-button" type='submit'>Search</button>
+              <button className="search-button" type="submit">
+                Search
+              </button>
             </form>
           </section>
 
           <section className="results-section">
             <h2 className="section-title">Results</h2>
             <p className="section-text">{message}</p>
-            { isLoading && <p className="section-text">Loading meals...</p>}
+            {isLoading && <p className="section-text">Loading meals...</p>}
           </section>
         </div>
       </main>
