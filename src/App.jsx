@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -9,6 +9,15 @@ const App = () => {
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+  };
+
+  const fetchMeals = async (mealQuery) => {
+    const response = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/search.php?s=${mealQuery}`,
+    );
+
+    const data = await response.json();
+    setMeals(data.meals || []);
   };
 
   const handleSearchSubmit = (e) => {
@@ -26,6 +35,7 @@ const App = () => {
     setErrorMessage('');
     setSubmittedSearch(trimmedSearch);
     setSearchTerm('');
+    fetchMeals(trimmedSearch);
   };
 
   let message = 'Search for a meal to see results here.';
@@ -81,7 +91,7 @@ const App = () => {
 
           <section className="results-section">
             <h2 className="section-title">Results</h2>
-            <p className="section-text">{message}</p>
+            <p className="section-text">Meals found: {meals.length}</p>
             {isLoading && <p className="section-text">Loading meals...</p>}
           </section>
         </div>
