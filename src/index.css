@@ -203,7 +203,7 @@ input {
 }
 
 .meal-card-title {
-  margin: 0;
+  margin: 1rem 0;
   font-size: 1.1rem;
 }
 
@@ -229,6 +229,6 @@ input {
 
 @media (min-width: 1000px) {
   .meals-grid {
-    grid-template-columns: repeat(3fr, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }

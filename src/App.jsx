@@ -12,12 +12,21 @@ const App = () => {
   };
 
   const fetchMeals = async (mealQuery) => {
-    const response = await fetch(
-      `https://www.themealdb.com/api/json/v1/1/search.php?s=${mealQuery}`,
-    );
+    setIsLoading(true);
 
-    const data = await response.json();
-    setMeals(data.meals || []);
+    try {
+      const response = await fetch(
+        `https://www.themealdb.com/api/json/v1/1/search.php?s=${mealQuery}`,
+      );
+
+      const data = await response.json();
+      setMeals(data.meals || []);
+    } catch (error) {
+      setErrorMessage('Something went wrong. Please try again.');
+      setMeals([]);
+    }
+
+    setIsLoading(false);
   };
 
   const handleSearchSubmit = (e) => {
@@ -103,7 +112,7 @@ const App = () => {
             <div className="meals-grid">
               {meals.map((meal) => {
                 return (
-                  <article>
+                  <article key={meal.idMeal} className='meal-card'>
                     <img
                       className="meal-card-image"
                       src={meal.strMealThumb}
