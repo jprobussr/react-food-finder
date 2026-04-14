@@ -100,22 +100,24 @@ const App = () => {
               </p>
             )}
 
-            {meals.map((meal) => {
-              return (
-                <article key={meal.idMeal} className="meal-card">
-                  <img
-                    className="meal-card-image"
-                    src={meal.strMealThumb}
-                    alt={meal.strMeal}
-                  />
+            <div className="meals-grid">
+              {meals.map((meal) => {
+                return (
+                  <article>
+                    <img
+                      className="meal-card-image"
+                      src={meal.strMealThumb}
+                      alt={meal.strMeal}
+                    />
 
-                  <div className="meal-card-content">
-                    <h3 className="meal-card-title">{meal.strMeal}</h3>
-                    <p className="meal-card-meta">{meal.strCategory}</p>
-                  </div>
-                </article>
-              );
-            })}
+                    <div className="meal-card-content">
+                      <h3 className="meal-card-title">{meal.strMeal}</h3>
+                      <p className="meal-card-meta">{meal.strCategory}</p>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
 
             {isLoading && <p className="section-text">Loading meals...</p>}
           </section>
