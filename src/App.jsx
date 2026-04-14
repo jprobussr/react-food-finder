@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,7 +28,7 @@ const App = () => {
     if (!trimmedSearch) {
       setSubmittedSearch('');
       setMeals([]);
-      setErrorMessage('');
+      setErrorMessage('Please enter a meal name');
       return;
     }
 
@@ -45,6 +45,8 @@ const App = () => {
   } else if (submittedSearch) {
     message = `You searched for: ${submittedSearch}`;
   }
+
+  const hasSearched = submittedSearch !== '';
 
   return (
     <div className="app-shell">
@@ -91,7 +93,30 @@ const App = () => {
 
           <section className="results-section">
             <h2 className="section-title">Results</h2>
-            <p className="section-text">Meals found: {meals.length}</p>
+            <p className="section-text">{message}</p>
+            {hasSearched && meals.length === 0 && !errorMessage && (
+              <p className="section-text">
+                No meals found for "{submittedSearch}".
+              </p>
+            )}
+
+            {meals.map((meal) => {
+              return (
+                <article key={meal.idMeal} className="meal-card">
+                  <img
+                    className="meal-card-image"
+                    src={meal.strMealThumb}
+                    alt={meal.strMeal}
+                  />
+
+                  <div className="meal-card-content">
+                    <h3 className="meal-card-title">{meal.strMeal}</h3>
+                    <p className="meal-card-meta">{meal.strCategory}</p>
+                  </div>
+                </article>
+              );
+            })}
+
             {isLoading && <p className="section-text">Loading meals...</p>}
           </section>
         </div>
