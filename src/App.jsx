@@ -124,6 +124,13 @@ const App = () => {
                 />
 
                 <div className="selected-meal-content">
+                  <button
+                    className="selected-meal-close"
+                    type="button"
+                    onClick={() => setSelectedMeal(null)}
+                  >
+                    Close
+                  </button>
                   <h3 className="selected-meal-title">
                     {selectedMeal.strMeal}
                   </h3>

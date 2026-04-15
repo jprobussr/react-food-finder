@@ -248,6 +248,22 @@ input {
   line-height: 1.7;
 }
 
+.selected-meal-close {
+  margin-block: 1rem;
+  align-self: flex-end;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.selected-meal-close:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
 @media (min-width: 700px) {
   .meals-grid {
     grid-template-columns: repeat(2, 1fr);
