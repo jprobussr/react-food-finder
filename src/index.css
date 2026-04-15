@@ -249,19 +249,49 @@ input {
 }
 
 .selected-meal-close {
-  margin-block: 1rem;
   align-self: flex-end;
-  border: 1px solid var(--border);
+  border: none;
   background: transparent;
   color: var(--muted);
-  padding: 0.35rem 0.75rem;
+  font-size: 1.5rem;
+  line-height: 1;
   cursor: pointer;
-  font-size: 0.85rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
 }
 
 .selected-meal-close:hover {
   color: var(--text);
-  border-color: var(--accent);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.selected-meal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected-meal-toggle {
+  margin-top: 1rem;
+  align-self: flex-start;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent-soft);
+  padding: 0.6rem 0.95rem;
+  border-radius: 0.65rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.selected-meal-toggle:hover {
+  background-color: rgba(249, 115, 22, 0.12);
+  color: var(--text);
 }
 
 @media (min-width: 700px) {

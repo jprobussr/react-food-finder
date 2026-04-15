@@ -7,6 +7,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedMeal, setSelectedMeal] = useState(null);
+  const [showFullInstructions, setShowFullInstructions] = useState(false);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -124,23 +125,36 @@ const App = () => {
                 />
 
                 <div className="selected-meal-content">
-                  <button
-                    className="selected-meal-close"
-                    type="button"
-                    onClick={() => setSelectedMeal(null)}
-                  >
-                    Close
-                  </button>
-                  <h3 className="selected-meal-title">
-                    {selectedMeal.strMeal}
-                  </h3>
+                  <div className="selected-meal-header">
+                    <h3 className="selected-meal-title">
+                      {selectedMeal.strMeal}
+                    </h3>
+                    <button
+                      className="selected-meal-close"
+                      type="button"
+                      onClick={() => setSelectedMeal(null)}
+                    >
+                      ×
+                    </button>
+                  </div>
+
                   <p className="selected-meal-meta">
                     {selectedMeal.strCategory} • {selectedMeal.strArea}
                   </p>
 
                   <p className="selected-meal-instructions">
-                    {selectedMeal.strInstructions.slice(0, 180)}...
+                    {showFullInstructions
+                      ? selectedMeal.setFullInstructions
+                      : `${selectedMeal.strInstructions.slice(0, 180)}...`}
                   </p>
+
+                  <button
+                    className="selected-meal-toggle"
+                    type="button"
+                    onClick={() => setShowFullInstructions((prev) => !prev)}
+                  >
+                    {showFullInstructions ? 'View full recipe' : 'View less'}
+                  </button>
                 </div>
               </article>
             )}
@@ -150,7 +164,10 @@ const App = () => {
                 <article
                   className="meal-card"
                   key={meal.idMeal}
-                  onClick={() => setSelectedMeal(meal)}
+                  onClick={() => {
+                    setSelectedMeal(meal);
+                    setShowFullInstructions(false);
+                  }}
                 >
                   <img
                     src={meal.strMealThumb}
