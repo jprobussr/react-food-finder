@@ -6,27 +6,10 @@ const App = () => {
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [selectedMeal, setSelectedMeal] = useState(null);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-  };
-
-  const fetchMeals = async (mealQuery) => {
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(
-        `https://www.themealdb.com/api/json/v1/1/search.php?s=${mealQuery}`,
-      );
-
-      const data = await response.json();
-      setMeals(data.meals || []);
-    } catch (error) {
-      setErrorMessage('Something went wrong. Please try again.');
-      setMeals([]);
-    }
-
-    setIsLoading(false);
   };
 
   const handleSearchSubmit = (e) => {
@@ -37,7 +20,7 @@ const App = () => {
     if (!trimmedSearch) {
       setSubmittedSearch('');
       setMeals([]);
-      setErrorMessage('Please enter a meal name');
+      setErrorMessage('Please enter a meal name.');
       return;
     }
 
@@ -45,6 +28,26 @@ const App = () => {
     setSubmittedSearch(trimmedSearch);
     setSearchTerm('');
     fetchMeals(trimmedSearch);
+  };
+
+  const fetchMeals = async (mealQuery) => {
+    setErrorMessage('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(
+        `https://www.themealdb.com/api/json/v1/1/search.php?s=${mealQuery}`,
+      );
+
+      const data = await response.json();
+
+      setMeals(data.meals || []);
+    } catch (error) {
+      setErrorMessage('Something went wrong. Please try again.');
+      setMeals([]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   let message = 'Search for a meal to see results here.';
@@ -82,7 +85,7 @@ const App = () => {
             </div>
 
             <form className="search-form" onSubmit={handleSearchSubmit}>
-              <label className="sr-only" htmlFor="meal-search">
+              <label htmlFor="meal-search" className="sr-only">
                 Search for a meal
               </label>
               <input
@@ -103,32 +106,58 @@ const App = () => {
           <section className="results-section">
             <h2 className="section-title">Results</h2>
             <p className="section-text">{message}</p>
+
             {hasSearched && meals.length === 0 && !errorMessage && (
               <p className="section-text">
                 No meals found for "{submittedSearch}".
               </p>
             )}
 
-            <div className="meals-grid">
-              {meals.map((meal) => {
-                return (
-                  <article key={meal.idMeal} className='meal-card'>
-                    <img
-                      className="meal-card-image"
-                      src={meal.strMealThumb}
-                      alt={meal.strMeal}
-                    />
-
-                    <div className="meal-card-content">
-                      <h3 className="meal-card-title">{meal.strMeal}</h3>
-                      <p className="meal-card-meta">{meal.strCategory}</p>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-
             {isLoading && <p className="section-text">Loading meals...</p>}
+
+            {selectedMeal && (
+              <article className="selected-meal">
+                <img
+                  className="selected-meal-image"
+                  src={selectedMeal.strMealThumb}
+                  alt={selectedMeal.strMeal}
+                />
+
+                <div className="selected-meal-content">
+                  <h3 className="selected-meal-title">
+                    {selectedMeal.strMeal}
+                  </h3>
+                  <p className="selected-meal-meta">
+                    {selectedMeal.strCategory} • {selectedMeal.strArea}
+                  </p>
+
+                  <p className="selected-meal-instructions">
+                    {selectedMeal.strInstructions.slice(0, 180)}...
+                  </p>
+                </div>
+              </article>
+            )}
+
+            <div className="meals-grid">
+              {meals.map((meal) => (
+                <article
+                  className="meal-card"
+                  key={meal.idMeal}
+                  onClick={() => setSelectedMeal(meal)}
+                >
+                  <img
+                    src={meal.strMealThumb}
+                    alt={meal.strMeal}
+                    className="meal-card-image"
+                  />
+
+                  <div className="meal-card-content">
+                    <h3 className="meal-card-title">{meal.strMeal}</h3>
+                    <p className="meal-card-meta">{meal.strCategory}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
           </section>
         </div>
       </main>

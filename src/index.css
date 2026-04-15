@@ -212,6 +212,42 @@ input {
   color: var(--muted);
 }
 
+.selected-meal {
+  display: grid;
+  gap: 1rem;
+  margin-block: 1rem 1.5rem;
+  background-color: #140f0d;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.selected-meal-image {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.selected-meal-content {
+  padding: 0 1rem 1rem;
+}
+
+.selected-meal-title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.selected-meal-meta {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+}
+
+.selected-meal-instructions {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
 @media (min-width: 700px) {
   .meals-grid {
     grid-template-columns: repeat(2, 1fr);
